@@ -1,35 +1,27 @@
-#include <vector>
-#include <algorithm>
-
 class Solution {
 public:
-    std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
+    vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        vector<vector<int>> vec;
-        
-        for (int i = 0; i < nums.size(); ++i) {
-            if (i > 0 && nums[i] == nums[i-1]) {
+        vector<vector<int>>ans;
+        for(int i=0; i<nums.size();i++){
+            if(i>0 && nums[i]==nums[i-1]){
                 continue;
             }
-            int l = i + 1;
-            int r = nums.size() - 1;
-            
-            while (l < r) {
-                int sum = nums[i] + nums[l] + nums[r];
-                if (sum == 0) {
-                    vec.push_back({nums[i], nums[l], nums[r]});
-                    while (l < r && nums[l] == nums[l+1]) ++l; 
-                    while (l < r && nums[r] == nums[r-1]) --r;
-                    ++l;
-                    --r;
-                } else if (sum < 0) {
-                    ++l;
-                } else {
-                    --r;
+            int j = i+1;
+            int k = nums.size()-1;
+
+            while(j<k){
+                int total = nums[i]+nums[j]+nums[k];
+
+                if(total>0) k--;
+                else if(total<0) j++;
+                else{
+                    ans.push_back({nums[i],nums[j],nums[k]});
+                    j++;
+                    while(nums[j]==nums[j-1]&&j<k)j++;
                 }
             }
         }
-        
-        return vec;
+        return ans;
     }
 };
